@@ -11,7 +11,7 @@ public class AllOrders extends JPanel {
         Class.forName("com.mysql.cj.jdbc.Driver");
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nerdygadgets", "root", "root");
-            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate` FROM `orders` LIMIT 10");
+            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
             rs = ps.executeQuery();
         } catch (Exception ex) {
             System.out.println("Fouttt");
@@ -22,12 +22,12 @@ public class AllOrders extends JPanel {
         int i = 0;
         while (rs.next()) {
             int id = rs.getInt("OrderID");
-            String nom = "Pietje";
+            String name = rs.getString("CustomerName");
             String age = rs.getString("OrderDate");
             String deliverd = "yes";
             String returned = "No";
             data[i][0] = id + "";
-            data[i][1] = nom;
+            data[i][1] = name;
             data[i][2] = age;
             data[i][3] = deliverd;
             data[i][4] = returned;
