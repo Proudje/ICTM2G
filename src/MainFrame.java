@@ -1,10 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ActionListener {
     private JButton returnButton;
     private JButton orderButton;
+    AllOrders order = new AllOrders();
+    ReturnedOrders returned = new ReturnedOrders();
 
     public MainFrame() throws ClassNotFoundException, SQLException {
         JPanel panel = new JPanel();
@@ -20,9 +24,26 @@ public class MainFrame extends JFrame {
         returnButton = new JButton("Retours");
         orderButton = new JButton("Orders");
 
+        returnButton.addActionListener(this);
+        orderButton.addActionListener(this);
+
         add(returnButton);
         add(orderButton);
 
-        add(new AllOrders());
+        add(order);
+    }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == returnButton) {
+            remove(order);
+            add(returned);
+            revalidate();
+            repaint();
+        }
+        if (e.getSource() == orderButton) {
+            remove(returned);
+            add(order);
+            revalidate();
+            repaint();
+        }
     }
 }
