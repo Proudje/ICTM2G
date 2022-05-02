@@ -43,30 +43,24 @@ public class LoginFrame extends JFrame implements ActionListener {
         panel.add(button);
 
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        Connection connection;
-        PreparedStatement ps;
+        Database data = new Database();
+
+        boolean result;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root");
-            ps = connection.prepareStatement("SELECT `username`, `password` FROM `user` WHERE `username` = ? AND `password` = ?");
-            ps.setString(1, username.getText());
-            ps.setString(2, String.valueOf(password.getPassword()));
-            ResultSet result = ps.executeQuery();
-            if(result.next()){
+            result = data.getLogin(username.getText(), String.valueOf(password.getPassword()));
+            if (result) {
                 MainFrame m = new MainFrame();
                 dispose();
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Login Failed.");
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }
