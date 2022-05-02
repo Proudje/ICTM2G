@@ -57,9 +57,7 @@ public class LoginFrame extends JFrame implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed.");
             }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
     }
