@@ -1,11 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
     private JButton returnButton;
     private JButton orderButton;
 
-    public MainFrame() throws ClassNotFoundException {
+    public MainFrame() throws ClassNotFoundException, SQLException {
         JPanel panel = new JPanel();
         setLayout(new FlowLayout());
         panel.setLayout(null);

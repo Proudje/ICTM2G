@@ -59,7 +59,7 @@ public class LoginFrame extends JFrame implements ActionListener {
             ps.setString(2, String.valueOf(password.getPassword()));
             ResultSet result = ps.executeQuery();
             if(result.next()){
-                JOptionPane.showMessageDialog(null, "Login Success.");
+                MainFrame m = new MainFrame();
                 dispose();
             }
             else{

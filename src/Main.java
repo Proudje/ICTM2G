@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class main {
+public class Main {
+    public static void main(String[] args) {
+        LoginFrame g = new LoginFrame();
+
+    }
 }
