@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
 
 public class Database {
@@ -56,6 +58,31 @@ public class Database {
             data[i][2] = age;
             data[i][3] = deliverd;
             data[i][4] = returned;
+            i++;
+        }
+        return data;
+    }
+
+    public String[][] getReturnedOrders() throws SQLException {
+        PreparedStatement ps;
+        ResultSet rs = null;
+        try {
+            Connection connection = getConnection();
+            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
+            rs = ps.executeQuery();
+        } catch (Exception ex) {
+            System.out.println("Fouttt");
+        }
+
+        String data[][] = new String[20][3];
+        int i = 0;
+        while (rs.next()) {
+            int id = rs.getInt("OrderID");
+            String name = rs.getString("CustomerName");
+            String age = rs.getString("OrderDate");
+            data[i][0] = id + "";
+            data[i][1] = name;
+            data[i][2] = age;
             i++;
         }
         return data;
