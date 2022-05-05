@@ -19,6 +19,8 @@ public class Database {
         Connection connection = getConnection();
         PreparedStatement ps;
         ResultSet rs = null;
+        boolean password_verified = false;
+
         try {
             ps = connection.prepareStatement("SELECT `username`, `password` FROM `user` WHERE `username` = ? AND `password` = ?");
             ps.setString(1, username);
