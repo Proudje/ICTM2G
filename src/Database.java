@@ -31,6 +31,8 @@ public class Database {
             ps.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            connection.close();
         }
         finally {
             connection.close();
@@ -41,12 +43,15 @@ public class Database {
     public String[][] getOders() throws SQLException {
         PreparedStatement ps;
         ResultSet rs = null;
+        Connection connection = getConnection();
         try {
-            Connection connection = getConnection();
             ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
             rs = ps.executeQuery();
+            ps.close();
         } catch (Exception ex) {
             System.out.println("Fouttt");
+        } finally {
+            connection.close();
         }
 
         String data[][] = new String[20][5];
@@ -70,12 +75,15 @@ public class Database {
     public String[][] getReturnedOrders() throws SQLException {
         PreparedStatement ps;
         ResultSet rs = null;
+        Connection connection = getConnection();
         try {
-            Connection connection = getConnection();
             ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
             rs = ps.executeQuery();
+            ps.close();
         } catch (Exception ex) {
             System.out.println("Fouttt");
+        } finally {
+            connection.close();
         }
 
         String data[][] = new String[20][3];
