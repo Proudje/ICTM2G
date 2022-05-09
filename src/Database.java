@@ -28,8 +28,12 @@ public class Database {
                 return true;
 
             }
+            ps.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        }
+        finally {
+            connection.close();
         }
         return false;
     }
