@@ -36,9 +36,7 @@ public class Database {
         } finally {
             connection.close();
         }
-        finally {
-            connection.close();
-        }
+
         return false;
     }
 
