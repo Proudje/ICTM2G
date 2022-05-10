@@ -11,11 +11,9 @@ public class LoginFrame extends JFrame implements ActionListener {
     private static JButton button;
     private static JPasswordField password;
 
-    private static int workload = 12;
-
 
     public LoginFrame() {
-/*        JPanel panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.setLayout(null);
         setVisible(true);
         setTitle("Login Page");
@@ -43,60 +41,51 @@ public class LoginFrame extends JFrame implements ActionListener {
         button = new JButton("Login");
         button.setBounds(100, 110, 90, 25);
         button.addActionListener(this);
-        panel.add(button);*/
+        panel.add(button);
 
+//        String test_passwd = "abcdefghijklmnopqrstuvwxyz";
+//        String test_hash = "$2a$06$.rCVZVOThsIa97pEDOxvGuRRgzG64bvtJ0938xuqzv18d3ZpQhstC";
+//
+//        System.out.println("Testing BCrypt Password hashing and verification");
+//        System.out.println("Test password: " + test_passwd);
+//        System.out.println("Test stored hash: " + test_hash);
+//        System.out.println("Hashing test password...");
+//        System.out.println();
+//
+//        String computed_hash = hashPassword(test_passwd);
+//        System.out.println("Test computed hash: " + computed_hash);
+//        System.out.println();
+//        System.out.println("Verifying that hash and stored hash both match for the test password...");
+//        System.out.println();
+//
+//        String compare_test = checkPassword(test_passwd, test_hash)
+//                ? "Passwords Match" : "Passwords do not match";
+//        String compare_computed = checkPassword(test_passwd, computed_hash)
+//                ? "Passwords Match" : "Passwords do not match";
+//
+//        System.out.println("Verify against stored hash:   " + compare_test);
+//        System.out.println("Verify against computed hash: " + compare_computed);
 
-        String test_passwd = "abcdefghijklmnopqrstuvwxyz";
-        String test_hash = "$2a$06$.rCVZVOThsIa97pEDOxvGuRRgzG64bvtJ0938xuqzv18d3ZpQhstC";
-
-        System.out.println("Testing BCrypt Password hashing and verification");
-        System.out.println("Test password: " + test_passwd);
-        System.out.println("Test stored hash: " + test_hash);
-        System.out.println("Hashing test password...");
-        System.out.println();
-
-        String computed_hash = hashPassword(test_passwd);
-        System.out.println("Test computed hash: " + computed_hash);
-        System.out.println();
-        System.out.println("Verifying that hash and stored hash both match for the test password...");
-        System.out.println();
-
-        String compare_test = checkPassword(test_passwd, test_hash)
-                ? "Passwords Match" : "Passwords do not match";
-        String compare_computed = checkPassword(test_passwd, computed_hash)
-                ? "Passwords Match" : "Passwords do not match";
-
-        System.out.println("Verify against stored hash:   " + compare_test);
-        System.out.println("Verify against computed hash: " + compare_computed);
 
     }
 
-    // Define the BCrypt workload to use when generating password hashes. 10-31 is a valid value.
-
-
-    public static String hashPassword(String password_plaintext) {
-        String salt = BCrypt.gensalt(workload);
-        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
-
-        return (hashed_password);
-    }
-
-    public static boolean checkPassword(String password_plaintext, String stored_hash) {
-        boolean password_verified = false;
-
-        if (null == stored_hash || !stored_hash.startsWith("$2a$"))
-            throw new java.lang.IllegalArgumentException("Invalid hash provided for comparison");
-
-        password_verified = BCrypt.checkpw(password_plaintext, stored_hash);
-
-        return (password_verified);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Database data = new Database();
 
         boolean result;
+        String computed_hash = Password.hashPassword(String.valueOf(password.getPassword()));
+
+/*        System.out.println(computed_hash);
+
+
+        String compare_computed = Password.checkPassword(String.valueOf(password.getPassword()), computed_hash)
+                ? "Passwords Match" : "Passwords do not match";
+
+
+        System.out.println(compare_computed);*/
+
         try {
             result = data.getLogin(username.getText(), String.valueOf(password.getPassword()));
             if (result) {
