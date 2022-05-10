@@ -75,16 +75,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         Database data = new Database();
 
         boolean result;
-        String computed_hash = Password.hashPassword(String.valueOf(password.getPassword()));
-
-/*        System.out.println(computed_hash);
-
-
-        String compare_computed = Password.checkPassword(String.valueOf(password.getPassword()), computed_hash)
-                ? "Passwords Match" : "Passwords do not match";
-
-
-        System.out.println(compare_computed);*/
+//        String computed_hash = Password.hashPassword(String.valueOf(password.getPassword()));
 
         try {
             result = data.getLogin(username.getText(), String.valueOf(password.getPassword()));
