@@ -9,7 +9,11 @@ public class AllOrders extends JPanel {
     Action delete = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new EditOrder();
+            try {
+                new EditOrder();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     };
 

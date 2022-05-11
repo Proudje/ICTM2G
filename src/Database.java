@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
     public Connection getConnection() throws SQLException {
@@ -44,7 +45,7 @@ public class Database {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
-        String data[][] = new String[20][5];
+        String data[][] = new String[10][6];
         int i = 0;
 
         try {
@@ -81,7 +82,7 @@ public class Database {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
-        String data[][] = new String[20][3];
+        String data[][] = new String[10][3];
         int i = 0;
 
         try {
@@ -105,5 +106,50 @@ public class Database {
             connection.close();
         }
         return data;
+    }
+    public Customer getCustomer(int customerID) throws SQLException {
+        PreparedStatement ps;
+        ResultSet rs = null;
+        Connection connection = getConnection();
+        try {
+            ps = connection.prepareStatement("SELECT CustomerID, CustomerName, PhoneNumber, DeliveryAddressLine2, DeliveryPostalCode, stateprovinces.StateProvinceName, countries.CountryName ,cities.CityName FROM `customers` JOIN cities ON PostalCityID = cities.CityID JOIN stateprovinces ON cities.StateProvinceID = stateprovinces.StateProvinceID JOIN countries ON stateprovinces.CountryID = countries.CountryID WHERE CustomerID = ?;");
+            ps.setInt(1, customerID);
+            rs = ps.executeQuery();
+            Customer customer = new Customer();
+
+            while (rs.next()) {
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setName(rs.getString("CustomerName"));
+                customer.setPhonenumber(rs.getString("PhoneNumber"));
+                customer.setAddress(rs.getString("DeliveryAddressLine2"));
+                customer.setPostalcode(rs.getString("DeliveryPostalCode"));
+                customer.setStateprovincename(rs.getString("stateprovinces.StateProvinceName"));
+                customer.setCountryname(rs.getString("countries.CountryName"));
+                customer.setCityname(rs.getString("cities.CityName"));
+            }
+
+            return customer;
+
+        } catch (Exception ex) {
+            System.out.println("werktniet");
+        }
+        return null;
+    }
+    public boolean updateCustomer(int customerID, String name, String phone, String address, String postalcode) throws SQLException {
+        PreparedStatement ps;
+        Connection connection = getConnection();
+        try {
+            ps = connection.prepareStatement("UPDATE `customers` SET CustomerName = ?, PhoneNumber = ?, DeliveryAddressLine2 = ?, DeliveryPostalCode = ? WHERE CustomerID = ?;");
+            ps.setString(1, name);
+            ps.setString(2, phone);
+            ps.setString(3, address);
+            ps.setString(4, postalcode);
+            ps.setInt(5, customerID);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
     }
 }
