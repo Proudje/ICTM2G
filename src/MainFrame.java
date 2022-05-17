@@ -9,13 +9,15 @@ public class MainFrame extends JFrame implements ActionListener {
     private JButton orderButton;
     AllOrders order = new AllOrders();
     ReturnedOrders returned = new ReturnedOrders();
+    private String page;
 
     public MainFrame() throws ClassNotFoundException, SQLException {
         JPanel panel = new JPanel();
         setLayout(new FlowLayout());
         panel.setLayout(null);
         setVisible(true);
-        setTitle("Main Page");
+        updateTitle(true);
+
         setLocation(new Point(250, 100));
         add(panel);
         setSize(new Dimension(1000, 700));
@@ -32,16 +34,30 @@ public class MainFrame extends JFrame implements ActionListener {
 
         add(order);
     }
+
+    private void updateTitle(boolean ok) {
+        String mededeling = "";
+        if (ok) {
+            mededeling = "Inloggen succesvol - ";
+            page = "Orders page";
+            setTitle(mededeling + page + " - Username: " + LoginFrame.getUsername());
+        }
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == returnButton) {
             remove(order);
             add(returned);
+            page = "Retours pagina";
+            setTitle(page + " - Username: " + LoginFrame.getUsername());
             revalidate();
             repaint();
         }
         if (e.getSource() == orderButton) {
             remove(returned);
             add(order);
+            page = "Orders page";
+            setTitle(page + " - Username: " + LoginFrame.getUsername());
             revalidate();
             repaint();
         }

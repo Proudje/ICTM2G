@@ -22,6 +22,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         setSize(new Dimension(400, 200));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Username label constructor
+
         userLabel = new JLabel("Username");
         userLabel.setBounds(100, 8, 70, 20);
         panel.add(userLabel);
@@ -69,6 +70,9 @@ public class LoginFrame extends JFrame implements ActionListener {
 
     }
 
+    public static String getUsername() {
+        return username.getText();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

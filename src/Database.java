@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Database {
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "root";
+        String username = "root", password = "";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;

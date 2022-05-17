@@ -3,6 +3,8 @@ import java.awt.*;
 import java.sql.*;
 
 public class ReturnedOrders extends JPanel {
+    private String page = "Orders page";
+
 
     public ReturnedOrders() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
@@ -16,4 +18,6 @@ public class ReturnedOrders extends JPanel {
         add(sp);
         setVisible(true);
     }
+
+
 }
