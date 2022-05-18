@@ -203,7 +203,7 @@ public class Database {
 
         totalRoute.add(startLocation);
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             Location shortest = shortestDistance(routes, lat1, lon1);
             totalRoute.add(shortest);
             lat1 = shortest.getLat();
