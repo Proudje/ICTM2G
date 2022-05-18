@@ -1,5 +1,3 @@
-import javax.swing.*;
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -151,5 +149,66 @@ public class Database {
             System.out.println(ex.getMessage());
         }
         return false;
+    }
+
+    public ArrayList<Location> getRoute() throws SQLException {
+        ArrayList<Location> routes = new ArrayList<>();
+        PreparedStatement ps;
+        ResultSet rs = null;
+        Connection connection = getConnection();
+        try {
+            ps = connection.prepareStatement("SELECT `DeliveryLocation` FROM `customers` LIMIT 20;");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] parts = rs.getString("DeliveryLocation").split(",", 2);
+                Location lo = new Location(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
+                routes.add(lo);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return routes;
+    }
+    public double calculateDistance(double lat1, double lon1, double lat2, double lon2){
+        double theta = lon1 - lon2;
+        double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+        dist = Math.acos(dist);
+        dist = Math.toDegrees(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344;
+        return dist;
+    }
+    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1){
+        Location shortest = null;
+        for (Location location : routes) {
+            double lowest = 300;
+            if ((lat1 == location.getLat()) && (lon1 == location.getLongg()) || location.isVisited()) {
+            } else {
+                double dist = calculateDistance(lat1, lon1, location.getLat(), location.getLongg());
+                if (dist < lowest) {
+                    lowest = dist;
+                    shortest = location;
+                }
+            }
+        }
+        shortest.setVisited(true);
+        return shortest;
+    }
+    public ArrayList<Location> alogorithm() throws SQLException {
+        double lat1 = 52.499220;
+        double lon1 = 6.081578;
+        ArrayList<Location> routes = getRoute();
+        ArrayList<Location> totalRoute = new ArrayList<>();
+        Location startLocation = new Location(lat1, lon1);
+
+        totalRoute.add(startLocation);
+
+        for (Location location : routes) {
+            Location shortest = shortestDistance(routes, lat1, lon1);
+            totalRoute.add(shortest);
+            lat1 = shortest.getLat();
+            lon1 = shortest.getLongg();
+        }
+        return totalRoute;
     }
 }
