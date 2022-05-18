@@ -180,12 +180,13 @@ public class Database {
     }
     public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1){
         Location shortest = null;
+        double lowest = 300;
         for (Location location : routes) {
-            double lowest = 300;
-            if ((lat1 == location.getLat()) && (lon1 == location.getLongg()) || location.isVisited()) {
+            if (location.isVisited()) {
             } else {
                 double dist = calculateDistance(lat1, lon1, location.getLat(), location.getLongg());
                 if (dist < lowest) {
+                    System.out.println(lowest);
                     lowest = dist;
                     shortest = location;
                 }
@@ -209,6 +210,7 @@ public class Database {
             lat1 = shortest.getLat();
             lon1 = shortest.getLongg();
         }
+
         return totalRoute;
     }
 }

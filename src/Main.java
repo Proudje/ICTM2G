@@ -13,8 +13,5 @@ public class Main {
 //            System.out.println(r.getLat() +","+ r.getLongg()+"/");
         }
         System.out.println(url);
-
-
-
     }
 }
