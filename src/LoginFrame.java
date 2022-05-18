@@ -15,7 +15,6 @@ public class LoginFrame extends JFrame implements ActionListener {
     public LoginFrame() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        setVisible(true);
         setTitle("Login Page");
         setLocation(new Point(500, 300));
         add(panel);
@@ -42,6 +41,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         button.setBounds(100, 110, 90, 25);
         button.addActionListener(this);
         panel.add(button);
+        setVisible(true);
 
 //        String test_passwd = "abcdefghijklmnopqrstuvwxyz";
 //        String test_hash = "$2a$06$.rCVZVOThsIa97pEDOxvGuRRgzG64bvtJ0938xuqzv18d3ZpQhstC";

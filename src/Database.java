@@ -157,7 +157,7 @@ public class Database {
         ResultSet rs = null;
         Connection connection = getConnection();
         try {
-            ps = connection.prepareStatement("SELECT `DeliveryLocation` FROM `customers` LIMIT 100;");
+            ps = connection.prepareStatement("SELECT `DeliveryLocation` FROM `customers` LIMIT 1000;");
             rs = ps.executeQuery();
             while (rs.next()) {
                 String[] parts = rs.getString("DeliveryLocation").split(",", 2);
@@ -203,7 +203,7 @@ public class Database {
 
         totalRoute.add(startLocation);
 
-        for (Location location : routes) {
+        for (int i = 0; i < 20; i++) {
             Location shortest = shortestDistance(routes, lat1, lon1);
             totalRoute.add(shortest);
             lat1 = shortest.getLat();

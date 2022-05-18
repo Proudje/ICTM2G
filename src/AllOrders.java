@@ -10,6 +10,7 @@ public class AllOrders extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                System.out.println(e.getActionCommand());
                 new EditOrder();
             } catch (SQLException ex) {
                 ex.printStackTrace();
