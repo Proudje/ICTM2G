@@ -7,11 +7,19 @@ public class Main {
         Database data = new Database();
         ArrayList<Location> routes = data.alogorithm();
         StringBuilder url = new StringBuilder("https://www.google.com/maps/dir/");
-        for (Location r : routes) {
-            String gps = r.getLat() +","+ r.getLongg()+"/";
-            url.append(gps);
-//            System.out.println(r.getLat() +","+ r.getLongg()+"/");
+        Location last = null;
+        for (int counter = 0; counter < routes.size(); counter++) {
+            if (counter == 0) {
+                String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
+                url.append(gps);
+            } else {
+                if (!(routes.get(counter).getLat() == routes.get(counter - 1).getLat() && routes.get(counter).getLongg() == routes.get(counter - 1).getLongg())) {
+                    String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
+                    url.append(gps);
+                }
+            }
         }
         System.out.println(url);
+
     }
 }
