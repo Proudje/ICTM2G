@@ -5,7 +5,8 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 //        LoginFrame g = new LoginFrame();
         Database data = new Database();
-        ArrayList<Location> routes = data.alogorithm();
+        NearestNeighbor ner = new NearestNeighbor();
+        ArrayList<Location> routes = ner.alogorithm();
         StringBuilder url = new StringBuilder("https://www.google.com/maps/dir/");
         Location last = null;
         for (int counter = 0; counter < routes.size(); counter++) {
@@ -19,7 +20,7 @@ public class Main {
                 }
             }
         }
-        System.out.println(url);
+        System.out.println("Goedemorgen bezorger, hierbij de route van vandaag: " + url);
 
     }
 }
