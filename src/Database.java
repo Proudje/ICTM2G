@@ -157,7 +157,7 @@ public class Database {
         ResultSet rs = null;
         Connection connection = getConnection();
         try {
-            ps = connection.prepareStatement("SELECT `DeliveryLocation` FROM `customers` LIMIT 20;");
+            ps = connection.prepareStatement("SELECT `DeliveryLocation` FROM `customers` LIMIT 100;");
             rs = ps.executeQuery();
             while (rs.next()) {
                 String[] parts = rs.getString("DeliveryLocation").split(",", 2);
@@ -186,7 +186,6 @@ public class Database {
             } else {
                 double dist = calculateDistance(lat1, lon1, location.getLat(), location.getLongg());
                 if (dist < lowest) {
-                    System.out.println(lowest);
                     lowest = dist;
                     shortest = location;
                 }
