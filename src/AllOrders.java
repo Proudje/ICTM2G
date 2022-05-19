@@ -1,17 +1,16 @@
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 
 public class AllOrders extends JPanel {
+    JTable jt;
     Action delete = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                System.out.println(e.getActionCommand());
-                new EditOrder();
+                new EditOrder(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()));
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -21,12 +20,12 @@ public class AllOrders extends JPanel {
     public AllOrders() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
 
-        String column[] = {"OrderID", "Customer name", "Order date", "Deliverd", "Retour", "Edit"};
+        String column[] = {"OrderID", "Customer name", "Order date", "Deliverd", "Edit"};
         Database data = new Database();
 
-        JTable jt = new JTable(data.getOders(), column);
+        jt = new JTable(data.getOders(), column);
 
-        ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 5);
+        ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 4);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
         jt.setBounds(30, 40, 200, 300);
@@ -34,5 +33,8 @@ public class AllOrders extends JPanel {
         JScrollPane sp = new JScrollPane(jt);
         add(sp);
         setVisible(true);
+    }
+    public Object GetData(JTable table, int row_index, int col_index){
+        return table.getModel().getValueAt(row_index, col_index);
     }
 }

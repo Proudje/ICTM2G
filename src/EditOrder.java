@@ -11,9 +11,10 @@ public class EditOrder extends JFrame implements ActionListener {
 
 
 
-    public EditOrder() throws SQLException {
+    public EditOrder(int customerID) throws SQLException {
+        System.out.println(customerID);
         Database data = new Database();
-        Customer customer = data.getCustomer(2);
+        Customer customer = data.getCustomer(customerID);
 
         setSize(800,500);
         setVisible(true);

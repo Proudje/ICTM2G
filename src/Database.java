@@ -56,12 +56,10 @@ public class Database {
                 String name = rs.getString("CustomerName");
                 String age = rs.getString("OrderDate");
                 String deliverd = "yes";
-                String returned = "No";
                 data[i][0] = id + "";
                 data[i][1] = name;
                 data[i][2] = age;
                 data[i][3] = deliverd;
-                data[i][4] = returned;
                 i++;
 
             }
