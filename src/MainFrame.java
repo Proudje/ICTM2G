@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class MainFrame extends JFrame implements ActionListener {
     private JButton returnButton;
     private JButton orderButton;
-    AllOrders order = new AllOrders();
-    ReturnedOrders returned = new ReturnedOrders();
+    OrdersFrame order = new OrdersFrame();
+    ReturnedOrdersFrame returned = new ReturnedOrdersFrame();
 
     public MainFrame() throws ClassNotFoundException, SQLException {
         JPanel panel = new JPanel();

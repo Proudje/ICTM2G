@@ -4,20 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 
-public class AllOrders extends JPanel {
+public class OrdersFrame extends JPanel {
     JTable jt;
     Action delete = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new EditOrder(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()));
+                new ViewOrderFrame(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()));
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     };
 
-    public AllOrders() throws ClassNotFoundException, SQLException {
+    public OrdersFrame() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
 
         String column[] = {"OrderID", "Customer name", "Order date", "Deliverd", "Edit"};

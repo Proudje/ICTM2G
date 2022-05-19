@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class ReturnedOrders extends JPanel {
+public class ReturnedOrdersFrame extends JPanel {
 
-    public ReturnedOrders() throws ClassNotFoundException, SQLException {
+    public ReturnedOrdersFrame() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
 
         Database data = new Database();

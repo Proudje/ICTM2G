@@ -4,14 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class EditOrder extends JFrame implements ActionListener {
+public class ViewOrderFrame extends JFrame implements ActionListener {
     private static JLabel userLabel, addressLabel, postalcodeLabel, phonenumberLabel, countryLabel, country, stateProvinceLabel, stateProvice, cityNameLabel, cityName;
     private static JTextField username, address, postalcode, phonenumber;
     private static JButton save;
 
 
 
-    public EditOrder(int customerID) throws SQLException {
+    public ViewOrderFrame(int customerID) throws SQLException {
         System.out.println(customerID);
         Database data = new Database();
         Customer customer = data.getCustomer(customerID);
