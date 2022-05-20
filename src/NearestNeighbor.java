@@ -24,7 +24,8 @@ public class NearestNeighbor extends Database {
         }
         return routes;
     }
-    public double calculateDistance(double lat1, double lon1, double lat2, double lon2){
+
+    public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
         dist = Math.acos(dist);
@@ -33,7 +34,8 @@ public class NearestNeighbor extends Database {
         dist = dist * 1.609344;
         return dist;
     }
-    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1){
+
+    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1) {
         Location shortest = null;
         double lowest = 300;
         for (Location location : routes) {
@@ -49,6 +51,7 @@ public class NearestNeighbor extends Database {
         shortest.setVisited(true);
         return shortest;
     }
+
     public ArrayList<Location> alogorithm() throws SQLException {
         double lat1 = 52.499220;
         double lon1 = 6.081578;
@@ -70,19 +73,23 @@ public class NearestNeighbor extends Database {
 
     public void getMessage() throws SQLException {
         ArrayList<Location> routes = alogorithm();
-        StringBuilder url = new StringBuilder("https://www.google.com/maps/dir/");
+        //StringBuilder url = new StringBuilder("https://www.google.com/maps/dir/");
+        StringBuilder url = new StringBuilder("https://map.project-osrm.org/?z=9&center=52.219387%2C5.429993");
         Location last = null;
         for (int counter = 0; counter < routes.size(); counter++) {
             if (counter == 0) {
-                String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
+                //String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
+                String gps = "&loc=" + routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
                 url.append(gps);
             } else {
                 if (!(routes.get(counter).getLat() == routes.get(counter - 1).getLat() && routes.get(counter).getLongg() == routes.get(counter - 1).getLongg())) {
-                    String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
+                    //String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
+                    String gps = "&loc=" + routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
                     url.append(gps);
                 }
             }
         }
+        url.append("&hl=en&alt=0&srv=0");
         System.out.println("Goedemorgen bezorger, hierbij de route van vandaag: " + url);
     }
 }
