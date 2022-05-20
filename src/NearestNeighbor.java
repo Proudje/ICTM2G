@@ -3,6 +3,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class NearestNeighbor extends Database {
 
@@ -71,7 +72,7 @@ public class NearestNeighbor extends Database {
         return totalRoute;
     }
 
-    public void getMessage() throws SQLException {
+    public String getMessage() throws SQLException {
         ArrayList<Location> routes = alogorithm();
         //StringBuilder url = new StringBuilder("https://www.google.com/maps/dir/");
         StringBuilder url = new StringBuilder("https://map.project-osrm.org/?z=9&center=52.219387%2C5.429993");
@@ -91,5 +92,6 @@ public class NearestNeighbor extends Database {
         }
         url.append("&hl=en&alt=0&srv=0");
         System.out.println("Goedemorgen bezorger, hierbij de route van vandaag: " + url);
+        return "Goedemorgen bezorger, hierbij de route van vandaag: " + url;
     }
 }
