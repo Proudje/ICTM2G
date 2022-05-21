@@ -49,8 +49,6 @@ public class Database {
         try {
             ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
             rs = ps.executeQuery();
-
-
             while (rs.next()) {
                 int id = rs.getInt("OrderID");
                 String name = rs.getString("CustomerName");
@@ -61,7 +59,42 @@ public class Database {
                 data[i][2] = age;
                 data[i][3] = deliverd;
                 i++;
+            }
+            ps.close();
+            return data;
 
+        } catch (Exception ex) {
+            System.out.println("Fouttt");
+        } finally {
+            connection.close();
+        }
+        return data;
+    }
+
+    public String[][] getProductsFromOrder() throws SQLException {
+        PreparedStatement ps;
+        ResultSet rs = null;
+        Connection connection = getConnection();
+        String data[][] = new String[10][7];
+        int i = 0;
+
+        try {
+            ps = connection.prepareStatement("SELECT orderlines.StockItemID, orderlines.Quantity, orderlines.UnitPrice, stockitems.StockItemName, stockitemholdings.QuantityOnHand FROM `orderlines` LEFT JOIN stockitems ON stockitems.StockItemID = orderlines.StockItemID LEFT JOIN stockitemholdings ON stockitems.StockItemID = stockitemholdings.StockItemID WHERE OrderID = 45");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("StockItemID");
+                String name = rs.getString("StockItemName");
+                int qty = rs.getInt("Quantity");
+                int stock = rs.getInt("QuantityOnHand");
+                int price = rs.getInt("UnitPrice");
+                int totalprice = price * qty;
+                data[i][0] = String.valueOf(id);
+                data[i][1] = name;
+                data[i][2] = String.valueOf(qty);
+                data[i][3] = String.valueOf(stock);
+                data[i][4] = String.valueOf(price);
+                data[i][5] = String.valueOf(totalprice);
+                i++;
             }
             ps.close();
             return data;

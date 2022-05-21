@@ -89,14 +89,14 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
         save.addActionListener(this);
         panel.add(save);
 
-        String column[] = {"OrderID", "Customer name", "Order date", "Deliverd", "Retour", "Edit"};
+        String column[] = {"Productnummer", "Productnaam", "Hoeveelheid", "Voorraad", "Prijs per stuk", "Prijs totaal", "Update"};
 
         username.setText(customer.getName());
         address.setText(customer.getAddress());
         postalcode.setText(customer.getPostalcode());
         phonenumber.setText(customer.getPhonenumber());
 
-        JTable jt = new JTable(data.getOders(), column);
+        JTable jt = new JTable(data.getProductsFromOrder(), column);
 
         jt.setBounds(100, 220, 400, 100);
         jt.setAutoCreateRowSorter(true);
