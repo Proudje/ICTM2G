@@ -75,13 +75,24 @@ public class Database {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
-        String data[][] = new String[10][7];
         int i = 0;
-
+        String[][] data;
         try {
-            ps = connection.prepareStatement("SELECT orderlines.StockItemID, orderlines.Quantity, orderlines.UnitPrice, stockitems.StockItemName, stockitemholdings.QuantityOnHand FROM `orderlines` LEFT JOIN stockitems ON stockitems.StockItemID = orderlines.StockItemID LEFT JOIN stockitemholdings ON stockitems.StockItemID = stockitemholdings.StockItemID WHERE OrderID = ?");
+            ps = connection.prepareStatement("SELECT orderlines.StockItemID, orderlines.Quantity, orderlines.UnitPrice, stockitems.StockItemName, stockitemholdings.QuantityOnHand FROM `orderlines` LEFT JOIN stockitems ON stockitems.StockItemID = orderlines.StockItemID LEFT JOIN stockitemholdings ON stockitems.StockItemID = stockitemholdings.StockItemID WHERE OrderID = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
             ps.setInt(1, orderID);
             rs = ps.executeQuery();
+
+            // Telt hoeveel records er zijn
+            // werkt alleen als je de TYPE_SCROLL_SENSITIVE en CONCUR_UPDATABLE toevoegds aan de conection prepare
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+                System.out.println(rowcount);
+            }
+            data = new String[rowcount][7];
+
             while (rs.next()) {
                 int id = rs.getInt("StockItemID");
                 String name = rs.getString("StockItemName");
@@ -101,10 +112,11 @@ public class Database {
             return data;
 
         } catch (Exception ex) {
-            System.out.println("Fouttt");
+            System.out.println(ex.getMessage());
         } finally {
             connection.close();
         }
+        data = new String[0][7];
         return data;
     }
 
