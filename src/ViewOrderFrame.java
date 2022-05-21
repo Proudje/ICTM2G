@@ -2,19 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
 public class ViewOrderFrame extends JFrame implements ActionListener {
     private static JLabel userLabel, addressLabel, postalcodeLabel, phonenumberLabel, countryLabel, country, stateProvinceLabel, stateProvice, cityNameLabel, cityName;
     private static JTextField username, address, postalcode, phonenumber;
     private static JButton save;
+    JTable jt;
 
-
-
-    public ViewOrderFrame(int customerID) throws SQLException {
-        System.out.println(customerID);
+    public ViewOrderFrame(int orderID) throws SQLException {
         Database data = new Database();
-        Customer customer = data.getCustomer(customerID);
+        Customer customer = data.getCustomer(orderID);
 
         setSize(800,500);
         setVisible(true);
@@ -96,7 +95,10 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
         postalcode.setText(customer.getPostalcode());
         phonenumber.setText(customer.getPhonenumber());
 
-        JTable jt = new JTable(data.getProductsFromOrder(), column);
+        jt = new JTable(data.getProductsFromOrder(orderID), column);
+
+        ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 6);
+        buttonColumn.setMnemonic(KeyEvent.VK_D);
 
         jt.setBounds(100, 220, 400, 100);
         jt.setAutoCreateRowSorter(true);
@@ -115,4 +117,10 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
             ex.printStackTrace();
         }
     }
+    Action delete = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0));
+        }
+    };
 }
