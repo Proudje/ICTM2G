@@ -84,7 +84,7 @@ public class Database {
             rs = ps.executeQuery();
 
             // Telt hoeveel records er zijn
-            // werkt alleen als je de TYPE_SCROLL_SENSITIVE en CONCUR_UPDATABLE toevoegds aan de conection prepare
+            // Werkt alleen als je de TYPE_SCROLL_SENSITIVE en CONCUR_UPDATABLE toevoegds aan de connection.prepareStatement
             int rowcount = 0;
             if (rs.last()) {
                 rowcount = rs.getRow();
@@ -187,6 +187,30 @@ public class Database {
             ps.setString(3, address);
             ps.setString(4, postalcode);
             ps.setInt(5, customerID);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+    public boolean updateProductFromOrder(int productID,int orderID, String productName, int qty, int stock, int price) throws SQLException {
+        PreparedStatement ps;
+        Connection connection = getConnection();
+        try {
+            ps = connection.prepareStatement("UPDATE `orderlines`  SET Quantity = ?, UnitPrice = ? WHERE OrderID = ? AND StockItemID = ?");
+            ps.setInt(1, qty);
+            ps.setInt(2, price);
+            ps.setInt(3, orderID);
+            ps.setInt(4, productID);
+            ps.executeUpdate();
+            ps = connection.prepareStatement("UPDATE `stockitems`  SET StockItemName = ? WHERE StockItemID = ?");
+            ps.setString(1, productName);
+            ps.setInt(2, productID);
+            ps.executeUpdate();
+            ps = connection.prepareStatement("UPDATE `stockitemholdings`  SET QuantityOnHand = ? WHERE StockItemID = ?");
+            ps.setInt(1, stock);
+            ps.setInt(2, productID);
             ps.executeUpdate();
             return true;
         } catch (Exception ex) {

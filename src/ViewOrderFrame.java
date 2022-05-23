@@ -10,8 +10,10 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
     private static JTextField username, address, postalcode, phonenumber;
     private static JButton save;
     JTable jt;
+    int orderID;
 
     public ViewOrderFrame(int orderID) throws SQLException {
+        this.orderID = orderID;
         Database data = new Database();
         Customer customer = data.getCustomer(orderID);
 
@@ -120,7 +122,12 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
     Action delete = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0));
+            Database data = new Database();
+            try {
+                boolean update = data.updateProductFromOrder(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()), orderID, jt.getValueAt(Integer.parseInt(e.getActionCommand()), 1).toString(), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 2).toString()), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 3).toString()), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 4).toString()));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     };
 }
