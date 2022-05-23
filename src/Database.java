@@ -162,7 +162,7 @@ public class Database {
         dist = dist * 1.609344;
         return dist;
     }
-    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1){
+    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1) throws SQLException {
         Location shortest = null;
         double lowest = 300;
         for (Location location : routes) {

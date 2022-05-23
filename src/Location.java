@@ -1,11 +1,20 @@
-public class Location {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+public class Location extends Database {
+    private int orderID;
     private double lat;
     private double longg;
     private boolean visited;
 
-    public Location (double lat, double longg) {
+    public Location(double lat, double longg, int orderID) {
         this.lat = lat;
         this.longg = longg;
+        this.orderID = orderID;
     }
 
     public double getLat() {
@@ -16,11 +25,28 @@ public class Location {
         return longg;
     }
 
+    public int getOrderID() {
+        return orderID;
+    }
+
     public boolean isVisited() {
         return visited;
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+    public void setVisited(boolean visited) throws SQLException {
+        if (orderID != 0) {
+            this.visited = visited;
+
+            PreparedStatement ps;
+            Connection connection = getConnection();
+
+            try {
+                ps = connection.prepareStatement("UPDATE `orders` SET `Delivered` = '1' WHERE `orders`.`OrderID` = ?");
+                ps.setInt(1, this.orderID);
+                ps.executeUpdate();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }

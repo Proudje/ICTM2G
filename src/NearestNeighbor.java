@@ -17,12 +17,13 @@ public class NearestNeighbor extends Database {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dtf.format(task.dateTimeNow());
         try {
-            ps = connection.prepareStatement("SELECT customers.DeliveryLocation FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID WHERE orders.OrderDate = ?;");
+            ps = connection.prepareStatement("SELECT customers.DeliveryLocation, orders.OrderID FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID WHERE orders.OrderDate = ? AND orders.Delivered = 0;");
             ps.setString(1, date);
             rs = ps.executeQuery();
             while (rs.next()) {
                 String[] parts = rs.getString("DeliveryLocation").split(",", 2);
-                Location lo = new Location(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]));
+                int orderId = rs.getInt("OrderID");
+                Location lo = new Location(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), orderId);
                 routes.add(lo);
             }
         } catch (Exception ex) {
@@ -41,7 +42,7 @@ public class NearestNeighbor extends Database {
         return dist;
     }
 
-    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1) {
+    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1) throws SQLException {
         Location shortest = null;
         double lowest = 300;
         for (Location location : routes) {
@@ -63,7 +64,7 @@ public class NearestNeighbor extends Database {
         double lon1 = 6.081578;
         ArrayList<Location> routes = getRoute();
         ArrayList<Location> totalRoute = new ArrayList<>();
-        Location startLocation = new Location(lat1, lon1);
+        Location startLocation = new Location(lat1, lon1, 0);
 
         totalRoute.add(startLocation);
 
