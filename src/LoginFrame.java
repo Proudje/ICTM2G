@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Timer;
 
 public class LoginFrame extends JFrame implements ActionListener {
 
@@ -15,7 +16,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     public LoginFrame() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        setTitle("Login Page");
+        setTitle("Login pagina");
         setLocation(new Point(500, 300));
         add(panel);
         setSize(new Dimension(400, 200));
@@ -41,31 +42,12 @@ public class LoginFrame extends JFrame implements ActionListener {
         button.setBounds(100, 110, 90, 25);
         button.addActionListener(this);
         panel.add(button);
+
+        java.util.Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(); // Instantiate SheduledTask class
+        time.schedule(st, 0, 1000); // elke seconde
+
         setVisible(true);
-
-//        String test_passwd = "abcdefghijklmnopqrstuvwxyz";
-//        String test_hash = "$2a$06$.rCVZVOThsIa97pEDOxvGuRRgzG64bvtJ0938xuqzv18d3ZpQhstC";
-//
-//        System.out.println("Testing BCrypt Password hashing and verification");
-//        System.out.println("Test password: " + test_passwd);
-//        System.out.println("Test stored hash: " + test_hash);
-//        System.out.println("Hashing test password...");
-//        System.out.println();
-//
-//        String computed_hash = hashPassword(test_passwd);
-//        System.out.println("Test computed hash: " + computed_hash);
-//        System.out.println();
-//        System.out.println("Verifying that hash and stored hash both match for the test password...");
-//        System.out.println();
-//
-//        String compare_test = checkPassword(test_passwd, test_hash)
-//                ? "Passwords Match" : "Passwords do not match";
-//        String compare_computed = checkPassword(test_passwd, computed_hash)
-//                ? "Passwords Match" : "Passwords do not match";
-//
-//        System.out.println("Verify against stored hash:   " + compare_test);
-//        System.out.println("Verify against computed hash: " + compare_computed);
-
 
     }
 
@@ -74,8 +56,8 @@ public class LoginFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Database data = new Database();
 
+
         boolean result;
-//        String computed_hash = Password.hashPassword(String.valueOf(password.getPassword()));
 
         try {
             result = data.getLogin(username.getText(), String.valueOf(password.getPassword()));
