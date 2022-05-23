@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
@@ -12,8 +13,12 @@ public class NearestNeighbor extends Database {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
+        ScheduledTask task = new ScheduledTask();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = dtf.format(task.dateTimeNow());
         try {
-            ps = connection.prepareStatement("SELECT `DeliveryLocation` FROM `customers` LIMIT 1000;");
+            ps = connection.prepareStatement("SELECT customers.DeliveryLocation FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID WHERE orders.OrderDate = ?;");
+            ps.setString(1, date);
             rs = ps.executeQuery();
             while (rs.next()) {
                 String[] parts = rs.getString("DeliveryLocation").split(",", 2);

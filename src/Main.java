@@ -15,6 +15,9 @@ public class Main {
         ScheduledTask st = new ScheduledTask(); // Instantiate SheduledTask class
         time.schedule(st, 0, 1000); // elke seconde
 
+        NearestNeighbor test = new NearestNeighbor();
+
+        test.getRoute();
     }
 }
 

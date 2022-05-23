@@ -1,10 +1,11 @@
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Database {
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "root";
+        String username = "root", password = "";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
@@ -56,10 +57,12 @@ public class Database {
                 String name = rs.getString("CustomerName");
                 String age = rs.getString("OrderDate");
                 String deliverd = "yes";
+                String returned = "No";
                 data[i][0] = id + "";
                 data[i][1] = name;
                 data[i][2] = age;
                 data[i][3] = deliverd;
+                data[i][4] = returned;
                 i++;
 
             }
@@ -147,5 +150,31 @@ public class Database {
             System.out.println(ex.getMessage());
         }
         return false;
+    }
+
+    public double calculateDistance(double lat1, double lon1, double lat2, double lon2){
+        double theta = lon1 - lon2;
+        double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+        dist = Math.acos(dist);
+        dist = Math.toDegrees(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344;
+        return dist;
+    }
+    public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1){
+        Location shortest = null;
+        double lowest = 300;
+        for (Location location : routes) {
+            if (location.isVisited()) {
+            } else {
+                double dist = calculateDistance(lat1, lon1, location.getLat(), location.getLongg());
+                if (dist < lowest) {
+                    lowest = dist;
+                    shortest = location;
+                }
+            }
+        }
+        shortest.setVisited(true);
+        return shortest;
     }
 }
