@@ -1,11 +1,12 @@
+import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Database {
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "";
+        String username = "root", password = "root";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
