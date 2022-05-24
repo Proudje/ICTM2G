@@ -41,8 +41,11 @@ public class Location extends Database {
                 ps = connection.prepareStatement("UPDATE `orders` SET `Delivered` = '1' WHERE `orders`.`OrderID` = ?");
                 ps.setInt(1, this.orderID);
                 ps.executeUpdate();
+                ps.close();
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
+            } finally {
+                connection.close();
             }
         }
     }

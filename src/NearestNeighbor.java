@@ -33,6 +33,9 @@ public class NearestNeighbor extends Database {
     }
 
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        if (lat1 == lat2 && lon1 == lon2) {
+            return 0;
+        }
         double theta = lon1 - lon2;
         double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
         dist = Math.acos(dist);
@@ -44,12 +47,14 @@ public class NearestNeighbor extends Database {
 
     public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1) throws SQLException {
         Location shortest = null;
-        double lowest = 300;
+        double lowest = 999999999;
         for (Location location : routes) {
             if (location.isVisited()) {
+//                System.out.println("isVisited==true");
             } else {
                 double dist = calculateDistance(lat1, lon1, location.getLat(), location.getLongg());
-                if (dist < lowest) {
+//                System.out.println(dist + ", " + lat1 + ", " + lon1 + " -- " + location.getLat() + ", " + location.getLongg());
+                if (dist < lowest || dist == lowest) {
                     lowest = dist;
                     shortest = location;
                 }
@@ -68,12 +73,15 @@ public class NearestNeighbor extends Database {
 
         totalRoute.add(startLocation);
 
-        for (int i = 0; i < 100; i++) {
-            Location shortest = shortestDistance(routes, lat1, lon1);
-            totalRoute.add(shortest);
-            lat1 = shortest.getLat();
-            lon1 = shortest.getLongg();
-        }
+            for (int i = 0; i < 100; i++) {
+                if (routes.size() > i) {
+                    Location shortest = shortestDistance(routes, lat1, lon1);
+
+                    totalRoute.add(shortest);
+                    lat1 = shortest.getLat();
+                    lon1 = shortest.getLongg();
+                }
+            }
 
         return totalRoute;
     }
