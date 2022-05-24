@@ -1,12 +1,6 @@
 public class Customer {
     private int customerID;
-    private String name;
-    private String address;
-    private String postalcode;
-    private String phonenumber;
-    private String stateprovincename;
-    private String countryname;
-    private String cityname;
+    private String name, address, postalcode, phonenumber, stateprovincename, countryname, cityname;
 
     public int getCustomerID() {
         return customerID;

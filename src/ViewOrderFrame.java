@@ -2,19 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
 public class ViewOrderFrame extends JFrame implements ActionListener {
     private static JLabel userLabel, addressLabel, postalcodeLabel, phonenumberLabel, countryLabel, country, stateProvinceLabel, stateProvice, cityNameLabel, cityName;
     private static JTextField username, address, postalcode, phonenumber;
     private static JButton save;
+    JTable jt;
+    int orderID;
+    int customerID;
 
-
-
-    public ViewOrderFrame(int customerID) throws SQLException {
-        System.out.println(customerID);
+    public ViewOrderFrame(int orderID, int customerID) throws SQLException {
+        this.orderID = orderID;
+        this.customerID = customerID;
         Database data = new Database();
-        Customer customer = data.getCustomer(customerID);
+        Customer customer = data.getCustomer(orderID);
 
         setSize(800,500);
         setVisible(true);
@@ -89,14 +92,17 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
         save.addActionListener(this);
         panel.add(save);
 
-        String column[] = {"OrderID", "Customer name", "Order date", "Deliverd", "Retour", "Edit"};
+        String column[] = {"Productnummer", "Productnaam", "Hoeveelheid", "Voorraad", "Prijs per stuk", "Prijs totaal", "Update"};
 
         username.setText(customer.getName());
         address.setText(customer.getAddress());
         postalcode.setText(customer.getPostalcode());
         phonenumber.setText(customer.getPhonenumber());
 
-        JTable jt = new JTable(data.getOders(), column);
+        jt = new JTable(data.getProductsFromOrder(orderID), column);
+
+        ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 6);
+        buttonColumn.setMnemonic(KeyEvent.VK_D);
 
         jt.setBounds(100, 220, 400, 100);
         jt.setAutoCreateRowSorter(true);
@@ -109,10 +115,20 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Database data = new Database();
         try {
-            boolean test = data.updateCustomer(2, username.getText(), phonenumber.getText(), address.getText(), postalcode.getText());
-            System.out.println(test);
+            boolean test = data.updateCustomer(customerID, username.getText(), phonenumber.getText(), address.getText(), postalcode.getText());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+    Action delete = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Database data = new Database();
+            try {
+                boolean update = data.updateProductFromOrder(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()), orderID, jt.getValueAt(Integer.parseInt(e.getActionCommand()), 1).toString(), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 2).toString()), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 3).toString()), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 4).toString()));
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    };
 }
