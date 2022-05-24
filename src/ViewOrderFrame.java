@@ -11,9 +11,11 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
     private static JButton save;
     JTable jt;
     int orderID;
+    int customerID;
 
-    public ViewOrderFrame(int orderID) throws SQLException {
+    public ViewOrderFrame(int orderID, int customerID) throws SQLException {
         this.orderID = orderID;
+        this.customerID = customerID;
         Database data = new Database();
         Customer customer = data.getCustomer(orderID);
 
@@ -113,8 +115,7 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Database data = new Database();
         try {
-            boolean test = data.updateCustomer(2, username.getText(), phonenumber.getText(), address.getText(), postalcode.getText());
-            System.out.println(test);
+            boolean test = data.updateCustomer(customerID, username.getText(), phonenumber.getText(), address.getText(), postalcode.getText());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

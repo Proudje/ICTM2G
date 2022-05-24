@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws SQLException {
         LoginFrame g = new LoginFrame();
-        NearestNeighbor ner = new NearestNeighbor();
-        ner.getMessage();
+//        NearestNeighbor ner = new NearestNeighbor();
+//        ner.getMessage();
     }
 }

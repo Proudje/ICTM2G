@@ -10,7 +10,7 @@ public class OrdersFrame extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new ViewOrderFrame(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()));
+                new ViewOrderFrame(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()),Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 1).toString()));
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -20,12 +20,12 @@ public class OrdersFrame extends JPanel {
     public OrdersFrame() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
 
-        String column[] = {"OrderID", "Customer name", "Order date", "Deliverd", "Edit"};
+        String column[] = {"OrderID", "CustomerID", "Customer name", "Order date", "Deliverd", "Edit"};
         Database data = new Database();
 
         jt = new JTable(data.getOders(), column);
 
-        ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 4);
+        ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 5);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
         jt.setBounds(30, 40, 200, 300);

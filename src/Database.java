@@ -43,21 +43,24 @@ public class Database {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
-        String data[][] = new String[10][6];
+        String data[][] = new String[10][7];
         int i = 0;
 
         try {
-            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
+            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName`, customers.CustomerID FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
             rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("OrderID");
                 String name = rs.getString("CustomerName");
                 String age = rs.getString("OrderDate");
+                int customerID = rs.getInt("CustomerID");
                 String deliverd = "yes";
                 data[i][0] = id + "";
-                data[i][1] = name;
-                data[i][2] = age;
-                data[i][3] = deliverd;
+                data[i][1] = customerID + "";
+                data[i][2] = name;
+                data[i][3] = age;
+                data[i][4] = deliverd;
+                data[i][5] = "";
                 i++;
             }
             ps.close();
@@ -154,7 +157,7 @@ public class Database {
         ResultSet rs = null;
         Connection connection = getConnection();
         try {
-            ps = connection.prepareStatement("SELECT customers.CustomerID, CustomerName, PhoneNumber, DeliveryAddressLine2, DeliveryPostalCode, stateprovinces.StateProvinceName, countries.CountryName ,cities.CityName FROM `customers` JOIN cities ON PostalCityID = cities.CityID JOIN stateprovinces ON cities.StateProvinceID = stateprovinces.StateProvinceID JOIN countries ON stateprovinces.CountryID = countries.CountryID JOIN orders ON customers.CustomerID = orders.CustomerID WHERE orders.OrderID = ?");
+            ps = connection.prepareStatement("SELECT customers.CustomerID, customers.CustomerName, PhoneNumber, DeliveryAddressLine2, DeliveryPostalCode, stateprovinces.StateProvinceName, countries.CountryName ,cities.CityName FROM `customers` JOIN cities ON PostalCityID = cities.CityID JOIN stateprovinces ON cities.StateProvinceID = stateprovinces.StateProvinceID JOIN countries ON stateprovinces.CountryID = countries.CountryID JOIN orders ON customers.CustomerID = orders.CustomerID WHERE orders.OrderID = ?");
             ps.setInt(1, orderID);
             rs = ps.executeQuery();
             Customer customer = new Customer();
