@@ -26,8 +26,11 @@ public class NearestNeighbor extends Database {
                 Location lo = new Location(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), orderId);
                 routes.add(lo);
             }
+            ps.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            connection.close();
         }
         return routes;
     }
@@ -71,15 +74,15 @@ public class NearestNeighbor extends Database {
 
         totalRoute.add(startLocation);
 
-            for (int i = 0; i < 100; i++) {
-                if (routes.size() > i) {
-                    Location shortest = shortestDistance(routes, lat1, lon1);
+        for (int i = 0; i < 100; i++) {
+            if (routes.size() > i) {
+                Location shortest = shortestDistance(routes, lat1, lon1);
 
-                    totalRoute.add(shortest);
-                    lat1 = shortest.getLat();
-                    lon1 = shortest.getLongg();
-                }
+                totalRoute.add(shortest);
+                lat1 = shortest.getLat();
+                lon1 = shortest.getLongg();
             }
+        }
 
         return totalRoute;
     }
