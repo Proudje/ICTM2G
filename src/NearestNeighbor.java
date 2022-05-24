@@ -50,10 +50,8 @@ public class NearestNeighbor extends Database {
         double lowest = 999999999;
         for (Location location : routes) {
             if (location.isVisited()) {
-//                System.out.println("isVisited==true");
             } else {
                 double dist = calculateDistance(lat1, lon1, location.getLat(), location.getLongg());
-//                System.out.println(dist + ", " + lat1 + ", " + lon1 + " -- " + location.getLat() + ", " + location.getLongg());
                 if (dist < lowest || dist == lowest) {
                     lowest = dist;
                     shortest = location;
@@ -88,17 +86,14 @@ public class NearestNeighbor extends Database {
 
     public String getMessage() throws SQLException {
         ArrayList<Location> routes = alogorithm();
-        //StringBuilder url = new StringBuilder("https://www.google.com/maps/dir/");
         StringBuilder url = new StringBuilder("https://map.project-osrm.org/?z=9&center=52.219387%2C5.429993");
         Location last = null;
         for (int counter = 0; counter < routes.size(); counter++) {
             if (counter == 0) {
-                //String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
                 String gps = "&loc=" + routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
                 url.append(gps);
             } else {
                 if (!(routes.get(counter).getLat() == routes.get(counter - 1).getLat() && routes.get(counter).getLongg() == routes.get(counter - 1).getLongg())) {
-                    //String gps = routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
                     String gps = "&loc=" + routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
                     url.append(gps);
                 }

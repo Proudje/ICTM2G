@@ -19,13 +19,9 @@ public class ScheduledTask extends TimerTask {
             try {
                 ArrayList<Location> routes = ner.getRoute();
                 double total = routes.size();
-/*
-                System.out.println(total);
-*/
+
                 total = Math.ceil(total / 100);
-/*
-                System.out.println(total);
-*/
+
                 for (int i = 0; i < total; i++) {
                     ner.getMessage();
                 }
