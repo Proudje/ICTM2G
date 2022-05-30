@@ -52,13 +52,15 @@ public class LoginFrame extends JFrame implements ActionListener {
     }
 
 
+    /**
+     * @param e
+     * Checks if the login data is correct, if it is correct then it will open the MainFrame.
+     * Else it wil give you a Dialog that your login information is not correct.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Database data = new Database();
-
-
         boolean result;
-
         try {
             result = data.getLogin(username.getText(), String.valueOf(password.getPassword()));
             if (result) {

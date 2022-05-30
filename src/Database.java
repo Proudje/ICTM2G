@@ -2,9 +2,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Database {
+    /**
+     * @return Connection of the Database
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "";
+        String username = "root", password = "root";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
@@ -14,10 +18,15 @@ public class Database {
         }
     }
 
+    /**
+     * @param username
+     * @param password_plaintext
+     * @return True if the login was succesfull else returns False
+     * @throws SQLException
+     */
     public boolean getLogin(String username, String password_plaintext) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement ps;
-
         try {
             ps = connection.prepareStatement("SELECT `HashedPassword` FROM `people` WHERE `FullName` = ?");
             ps.setString(1, username);
@@ -32,19 +41,21 @@ public class Database {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         } finally {
-
             connection.close();
         }
         return false;
     }
 
+    /**
+     * @return String Array of the last 10 Orders from the database
+     * @throws SQLException
+     */
     public String[][] getOders() throws SQLException {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
         String data[][] = new String[10][7];
         int i = 0;
-
         try {
             ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName`, customers.CustomerID FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
             rs = ps.executeQuery();
@@ -64,15 +75,19 @@ public class Database {
             }
             ps.close();
             return data;
-
         } catch (Exception ex) {
-            System.out.println("Fouttt");
+            System.out.println(ex.getMessage());
         } finally {
             connection.close();
         }
         return data;
     }
 
+    /**
+     * @param orderID
+     * @return String Array of products from a order thats given in the param
+     * @throws SQLException
+     */
     public String[][] getProductsFromOrder(int orderID) throws SQLException {
         PreparedStatement ps;
         ResultSet rs = null;
@@ -85,14 +100,15 @@ public class Database {
             ps.setInt(1, orderID);
             rs = ps.executeQuery();
 
-            // Telt hoeveel records er zijn
-            // Werkt alleen als je de TYPE_SCROLL_SENSITIVE en CONCUR_UPDATABLE toevoegds aan de connection.prepareStatement
+            // Counts how many records there are
+            // Only works when you have TYPE_SCROLL_SENSITIVE and CONCUR_UPDATABLE added to your connection.prepareStatement
             int rowcount = 0;
             if (rs.last()) {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
                 System.out.println(rowcount);
             }
+            // rowcount has the amount of records in it
             data = new String[rowcount][7];
 
             while (rs.next()) {
@@ -118,10 +134,12 @@ public class Database {
         } finally {
             connection.close();
         }
+        // If there are no products in the order (Just to be safe :) )
         data = new String[0][7];
         return data;
     }
 
+    // moet weg of orders of today van maken
     public String[][] getReturnedOrders() throws SQLException {
         PreparedStatement ps;
         ResultSet rs = null;
@@ -145,12 +163,19 @@ public class Database {
             ps.close();
             return data;
         } catch (Exception ex) {
-            System.out.println("Fouttt");
+            System.out.println(ex.getMessage());
         } finally {
             connection.close();
         }
         return data;
     }
+
+
+    /**
+     * @param orderID
+     * @return Customer information from a order thats given in the param
+     * @throws SQLException
+     */
     public Customer getCustomer(int orderID) throws SQLException {
         PreparedStatement ps;
         ResultSet rs = null;
@@ -175,10 +200,20 @@ public class Database {
             return customer;
 
         } catch (Exception ex) {
-            System.out.println("werktniet");
+            System.out.println(ex.getMessage());
         }
         return null;
     }
+
+    /**
+     * @param customerID
+     * @param name
+     * @param phone
+     * @param address
+     * @param postalcode
+     * @return True if Customer is succesfully updated else returns False
+     * @throws SQLException
+     */
     public boolean updateCustomer(int customerID, String name, String phone, String address, String postalcode) throws SQLException {
         PreparedStatement ps;
         Connection connection = getConnection();
@@ -196,6 +231,17 @@ public class Database {
         }
         return false;
     }
+
+    /**
+     * @param productID
+     * @param orderID
+     * @param productName
+     * @param qty
+     * @param stock
+     * @param price
+     * @return True if Product is succesfully updated else returns False
+     * @throws SQLException
+     */
     public boolean updateProductFromOrder(int productID,int orderID, String productName, int qty, int stock, int price) throws SQLException {
         PreparedStatement ps;
         Connection connection = getConnection();

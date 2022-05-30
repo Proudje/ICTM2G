@@ -4,10 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 public class NearestNeighbor extends Database {
 
+    /**
+     * @return Arraylist of Locations that are not Delivered and that are from today
+     * @throws SQLException
+     */
     public ArrayList<Location> getRoute() throws SQLException {
         ArrayList<Location> routes = new ArrayList<>();
         PreparedStatement ps;
@@ -35,6 +38,13 @@ public class NearestNeighbor extends Database {
         return routes;
     }
 
+    /**
+     * @param lat1
+     * @param lon1
+     * @param lat2
+     * @param lon2
+     * @return Double how long the distance is between 2 points in KM
+     */
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         if (lat1 == lat2 && lon1 == lon2) {
             return 0;
@@ -48,9 +58,16 @@ public class NearestNeighbor extends Database {
         return dist;
     }
 
+    /**
+     * @param routes
+     * @param lat1
+     * @param lon1
+     * @return The location which is the nearest from the given location
+     * @throws SQLException
+     */
     public Location shortestDistance(ArrayList<Location> routes, double lat1, double lon1) throws SQLException {
         Location shortest = null;
-        double lowest = 999999999;
+        double lowest = 9999999;
         for (Location location : routes) {
             if (location.isVisited()) {
             } else {
@@ -65,9 +82,15 @@ public class NearestNeighbor extends Database {
         return shortest;
     }
 
+    /**
+     * @return Arraylist of (100)locations from the Nearest Neigbhor algortihm
+     * @throws SQLException
+     */
     public ArrayList<Location> alogorithm() throws SQLException {
+        // Location of Windesheim Campus
         double lat1 = 52.499220;
         double lon1 = 6.081578;
+
         ArrayList<Location> routes = getRoute();
         ArrayList<Location> totalRoute = new ArrayList<>();
         Location startLocation = new Location(lat1, lon1, 0);
@@ -87,6 +110,10 @@ public class NearestNeighbor extends Database {
         return totalRoute;
     }
 
+    /**
+     * @return Gives a String of the route that the delivery driver needs to ride in the console
+     * @throws SQLException
+     */
     public String getMessage() throws SQLException {
         ArrayList<Location> routes = alogorithm();
         StringBuilder url = new StringBuilder("https://map.project-osrm.org/?z=9&center=52.219387%2C5.429993");

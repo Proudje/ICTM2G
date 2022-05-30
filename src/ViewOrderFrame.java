@@ -111,16 +111,25 @@ public class ViewOrderFrame extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * @param e
+     * Updates the Customer
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Database data = new Database();
         try {
-            boolean test = data.updateCustomer(customerID, username.getText(), phonenumber.getText(), address.getText(), postalcode.getText());
+            data.updateCustomer(customerID, username.getText(), phonenumber.getText(), address.getText(), postalcode.getText());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
     Action delete = new AbstractAction() {
+        /**
+         * @param e
+         * Gets the first collumn of the order where is clicked on.
+         * This gives back the ID of the product and sends it to the updateProductFromOrder
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             Database data = new Database();

@@ -7,6 +7,11 @@ import java.sql.*;
 public class OrdersFrame extends JPanel {
     JTable jt;
     Action delete = new AbstractAction() {
+        /**
+         * @param e
+         * Gets the first collumn of the order where is clicked on.
+         * This gives back the ID of the order and sends it to the ViewOrderFrame
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -16,7 +21,6 @@ public class OrdersFrame extends JPanel {
             }
         }
     };
-
     public OrdersFrame() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
 
@@ -33,8 +37,5 @@ public class OrdersFrame extends JPanel {
         JScrollPane sp = new JScrollPane(jt);
         add(sp);
         setVisible(true);
-    }
-    public Object GetData(JTable table, int row_index, int col_index){
-        return table.getModel().getValueAt(row_index, col_index);
     }
 }

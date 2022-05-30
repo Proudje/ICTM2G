@@ -30,13 +30,16 @@ public class Location extends Database {
         return visited;
     }
 
+    /**
+     * @param visited
+     * Sets order to deliverd when its been in the NearestNeighbor algorithm
+     * @throws SQLException
+     */
     public void setVisited(boolean visited) throws SQLException {
         if (orderID != 0) {
             this.visited = visited;
-
             PreparedStatement ps;
             Connection connection = getConnection();
-
             try {
                 ps = connection.prepareStatement("UPDATE `orders` SET `Delivered` = '1' WHERE `orders`.`OrderID` = ?");
                 ps.setInt(1, this.orderID);

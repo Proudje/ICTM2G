@@ -32,6 +32,11 @@ public class MainFrame extends JFrame implements ActionListener {
 
         add(order);
     }
+
+    /**
+     * @param e
+     * Opens a new frame based on which button you click on
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == returnButton) {
             remove(order);
