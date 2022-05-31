@@ -54,22 +54,36 @@ public class Database {
         PreparedStatement ps;
         ResultSet rs = null;
         Connection connection = getConnection();
-        String data[][] = new String[10][7];
+        String[][] data;
         int i = 0;
         try {
-            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName`, customers.CustomerID FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
+            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName`, customers.CustomerID, `Delivered` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID", ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             rs = ps.executeQuery();
+            // Counts how many records there are
+            // Only works when you have TYPE_SCROLL_SENSITIVE and CONCUR_UPDATABLE added to your connection.prepareStatement
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+                System.out.println(rowcount);
+            }
+            // rowcount has the amount of records in it
+            data = new String[rowcount][7];
             while (rs.next()) {
                 int id = rs.getInt("OrderID");
                 String name = rs.getString("CustomerName");
                 String age = rs.getString("OrderDate");
                 int customerID = rs.getInt("CustomerID");
-                String deliverd = "yes";
+                int deliverd = rs.getInt("Delivered");
+                if (deliverd == 0) {
+                    data[i][4] = "Niet geleverd";
+                } else if (deliverd == 1) {
+                    data[i][4] = "Geleverd";
+                }
                 data[i][0] = id + "";
                 data[i][1] = customerID + "";
                 data[i][2] = name;
                 data[i][3] = age;
-                data[i][4] = deliverd;
                 data[i][5] = "";
                 i++;
             }
@@ -80,6 +94,8 @@ public class Database {
         } finally {
             connection.close();
         }
+        // If there are no products in the order (Just to be safe :) )
+        data = new String[0][7];
         return data;
     }
 
