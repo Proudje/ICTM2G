@@ -187,37 +187,6 @@ public class Database {
         return data;
     }
 
-    // moet weg of orders of today van maken
-    public String[][] getReturnedOrders() throws SQLException {
-        PreparedStatement ps;
-        ResultSet rs = null;
-        Connection connection = getConnection();
-        String data[][] = new String[10][3];
-        int i = 0;
-
-        try {
-            ps = connection.prepareStatement("SELECT `OrderID`, `OrderDate`, `CustomerName` FROM `orders` LEFT JOIN customers ON customers.CustomerID = orders.CustomerID LIMIT 10");
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int id = rs.getInt("OrderID");
-                String name = rs.getString("CustomerName");
-                String age = rs.getString("OrderDate");
-                data[i][0] = id + "";
-                data[i][1] = name;
-                data[i][2] = age;
-                i++;
-            }
-            ps.close();
-            return data;
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            connection.close();
-        }
-        return data;
-    }
-
 
     /**
      * @param orderID

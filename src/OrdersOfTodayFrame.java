@@ -25,17 +25,15 @@ public class OrdersOfTodayFrame extends JPanel {
     public OrdersOfTodayFrame() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
         Database data = new Database();
-
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         String column[] = {"OrderID", "CustomerID", "Customer name", "Edit"};
         jt = new JTable(data.getOrderFromToday(), column);
         int Orders = jt.getRowCount();
         JLabel jl = new JLabel("Bestellingen vandaag: " + Orders);
-        jl.setBounds(30, 40, 900, 30);
 
         ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 3);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
-        jt.setBounds(30, 90, 900, 300);
         jt.setAutoCreateRowSorter(true);
         JScrollPane sp = new JScrollPane(jt);
         add(jl);

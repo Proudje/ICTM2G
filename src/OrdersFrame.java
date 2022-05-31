@@ -26,6 +26,7 @@ public class OrdersFrame extends JPanel {
 
         String column[] = {"OrderID", "CustomerID", "Customer name", "Order date", "Deliverd", "Edit"};
         Database data = new Database();
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         jt = new JTable(data.getOders(), column);
 
