@@ -8,14 +8,13 @@ public class MainFrame extends JFrame implements ActionListener {
     private JButton orderOfTodayButton;
     private JButton orderButton;
     OrdersFrame order = new OrdersFrame();
-    ReturnedOrdersFrame returned = new ReturnedOrdersFrame();
+    OrdersOfTodayFrame returned = new OrdersOfTodayFrame();
 
     public MainFrame() throws ClassNotFoundException, SQLException {
         JPanel panel = new JPanel();
         setLayout(new FlowLayout());
         panel.setLayout(null);
         setVisible(true);
-        setTitle("Main Page");
         setLocation(new Point(250, 100));
         add(panel);
         setSize(new Dimension(1000, 700));

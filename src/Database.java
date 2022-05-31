@@ -107,7 +107,6 @@ public class Database {
             if (rs.last()) {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
-                System.out.println(rowcount);
             }
             // rowcount has the amount of records in it
             data = new String[rowcount][7];
@@ -161,7 +160,6 @@ public class Database {
             if (rs.last()) {
                 rowcount = rs.getRow();
                 rs.beforeFirst();
-                System.out.println(rowcount);
             }
             // rowcount has the amount of records in it
             data = new String[rowcount][4];

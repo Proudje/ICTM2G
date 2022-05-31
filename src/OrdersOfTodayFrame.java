@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 
-public class ReturnedOrdersFrame extends JPanel {
+public class OrdersOfTodayFrame extends JPanel {
     JTable jt;
     Action delete = new AbstractAction() {
         /**
@@ -15,26 +15,30 @@ public class ReturnedOrdersFrame extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new ViewOrderFrame(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()),Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 1).toString()));
+                new ViewOrderFrame(Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 0).toString()), Integer.parseInt(jt.getValueAt(Integer.parseInt(e.getActionCommand()), 1).toString()));
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     };
-    public ReturnedOrdersFrame() throws ClassNotFoundException, SQLException {
-        setPreferredSize(new Dimension(900, 600));
 
-        String column[] = {"OrderID", "CustomerID", "Customer name", "Edit"};
+    public OrdersOfTodayFrame() throws ClassNotFoundException, SQLException {
+        setPreferredSize(new Dimension(900, 600));
         Database data = new Database();
 
+        String column[] = {"OrderID", "CustomerID", "Customer name", "Edit"};
         jt = new JTable(data.getOrderFromToday(), column);
+        int Orders = jt.getRowCount();
+        JLabel jl = new JLabel("Bestellingen vandaag: " + Orders);
+        jl.setBounds(30, 40, 900, 30);
 
         ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 3);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
 
-        jt.setBounds(30, 40, 200, 300);
+        jt.setBounds(30, 90, 900, 300);
         jt.setAutoCreateRowSorter(true);
         JScrollPane sp = new JScrollPane(jt);
+        add(jl);
         add(sp);
         setVisible(true);
     }
