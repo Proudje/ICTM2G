@@ -24,16 +24,17 @@ public class ReturnedOrdersFrame extends JPanel {
     public ReturnedOrdersFrame() throws ClassNotFoundException, SQLException {
         setPreferredSize(new Dimension(900, 600));
 
+        String column[] = {"OrderID", "CustomerID", "Customer name", "Edit"};
         Database data = new Database();
 
-        String column[]={"OrderID","CustomerID","CustomerName", "Edit"};
-        JTable jt=new JTable(data.getOrderFromToday(),column);
+        jt = new JTable(data.getOrderFromToday(), column);
 
-
-        jt.setBounds(30,40,200,300);
-        JScrollPane sp=new JScrollPane(jt);
         ButtonColumn buttonColumn = new ButtonColumn(jt, delete, 3);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
+
+        jt.setBounds(30, 40, 200, 300);
+        jt.setAutoCreateRowSorter(true);
+        JScrollPane sp = new JScrollPane(jt);
         add(sp);
         setVisible(true);
     }
