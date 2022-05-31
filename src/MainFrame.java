@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class MainFrame extends JFrame implements ActionListener {
-    private JButton returnButton;
+    private JButton orderOfTodayButton;
     private JButton orderButton;
     OrdersFrame order = new OrdersFrame();
     ReturnedOrdersFrame returned = new ReturnedOrdersFrame();
@@ -21,13 +21,13 @@ public class MainFrame extends JFrame implements ActionListener {
         setSize(new Dimension(1000, 700));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        returnButton = new JButton("Retours");
-        orderButton = new JButton("Orders");
+        orderOfTodayButton = new JButton("Bestellingen van vandaag");
+        orderButton = new JButton("Bestellingen");
 
-        returnButton.addActionListener(this);
+        orderOfTodayButton.addActionListener(this);
         orderButton.addActionListener(this);
 
-        add(returnButton);
+        add(orderOfTodayButton);
         add(orderButton);
 
         add(order);
@@ -38,7 +38,7 @@ public class MainFrame extends JFrame implements ActionListener {
      * Opens a new frame based on which button you click on
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == returnButton) {
+        if (e.getSource() == orderOfTodayButton) {
             remove(order);
             add(returned);
             revalidate();

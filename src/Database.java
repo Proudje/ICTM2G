@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Database {
@@ -8,7 +9,7 @@ public class Database {
      */
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "root";
+        String username = "root", password = "";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
@@ -124,6 +125,55 @@ public class Database {
                 data[i][3] = String.valueOf(stock);
                 data[i][4] = String.valueOf(price);
                 data[i][5] = String.valueOf(totalprice);
+                i++;
+            }
+            ps.close();
+            return data;
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            connection.close();
+        }
+        // If there are no products in the order (Just to be safe :) )
+        data = new String[0][7];
+        return data;
+    }
+
+    public String[][] getOrderFromToday() throws SQLException {
+        PreparedStatement ps;
+        ResultSet rs = null;
+        Connection connection = getConnection();
+        int i = 0;
+        String[][] data;
+        ScheduledTask task = new ScheduledTask();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = dtf.format(task.dateTimeNow());
+        try {
+            ps = connection.prepareStatement("SELECT OrderID, CustomerName, orders.CustomerID FROM orders JOIN customers ON orders.CustomerID = customers.CustomerID WHERE OrderDate = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, date);
+            rs = ps.executeQuery();
+
+            // Counts how many records there are
+            // Only works when you have TYPE_SCROLL_SENSITIVE and CONCUR_UPDATABLE added to your connection.prepareStatement
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst();
+                System.out.println(rowcount);
+            }
+            // rowcount has the amount of records in it
+            data = new String[rowcount][4];
+
+            while (rs.next()) {
+                int id = rs.getInt("OrderID");
+                String name = rs.getString("CustomerName");
+                int customerID = rs.getInt("CustomerID");
+                data[i][0] = id + "";
+                data[i][1] = customerID + "";
+                data[i][2] = name;
+                data[i][3] = "";
                 i++;
             }
             ps.close();
