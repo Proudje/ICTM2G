@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ public class Database {
      */
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "";
+        String username = "root", password = "root";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
@@ -261,6 +262,7 @@ public class Database {
             return true;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Bijwerken niet gelukt, controleer de ingvulde gegevens.");
         }
         return false;
     }
