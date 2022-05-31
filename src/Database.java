@@ -298,6 +298,7 @@ public class Database {
             return true;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Bijwerken niet gelukt, controleer de ingvulde gegevens.");
         }
         return false;
     }
