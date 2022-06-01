@@ -8,7 +8,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private JButton orderOfTodayButton;
     private JButton orderButton;
     OrdersFrame order = new OrdersFrame();
-    OrdersOfTodayFrame returned = new OrdersOfTodayFrame();
+    OrdersOfTodayFrame ordersOfToday = new OrdersOfTodayFrame();
 
     public MainFrame() throws ClassNotFoundException, SQLException {
         JPanel panel = new JPanel();
@@ -21,7 +21,7 @@ public class MainFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         orderOfTodayButton = new JButton("Bestellingen van vandaag");
-        orderButton = new JButton("Bestellingen");
+        orderButton = new JButton("Alle bestellingen");
 
         orderOfTodayButton.addActionListener(this);
         orderButton.addActionListener(this);
@@ -29,7 +29,7 @@ public class MainFrame extends JFrame implements ActionListener {
         add(orderOfTodayButton);
         add(orderButton);
 
-        add(order);
+        add(ordersOfToday);
     }
 
     /**
@@ -39,12 +39,12 @@ public class MainFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == orderOfTodayButton) {
             remove(order);
-            add(returned);
+            add(ordersOfToday);
             revalidate();
             repaint();
         }
         if (e.getSource() == orderButton) {
-            remove(returned);
+            remove(ordersOfToday);
             add(order);
             revalidate();
             repaint();

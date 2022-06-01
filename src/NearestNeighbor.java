@@ -126,7 +126,7 @@ public class NearestNeighbor extends Database {
         for (int counter = 0; counter < routes.size(); counter++) {
             if (counter == 0) {
                 String gps = "&loc=" + routes.get(counter).getLat() + "," + routes.get(counter).getLongg() + "/";
-                url.append(gps);
+                url.append(gps);//toevoegen aan url
             } else {
                 // If there are multiple orders on the same location this will prevend it from being multiple times in the url
                 if (!(routes.get(counter).getLat() == routes.get(counter - 1).getLat() && routes.get(counter).getLongg() == routes.get(counter - 1).getLongg())) {
