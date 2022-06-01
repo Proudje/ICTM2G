@@ -14,6 +14,7 @@ public class ScheduledTask extends TimerTask {
 
         LocalDateTime now = dateTimeNow();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        // this sets the time when it will run the algorithm
         LocalTime time = LocalTime.parse("22:00:00");
         if (dtf.format(now).equals(dtf.format(time))) {//remove for testing
             NearestNeighbor ner = new NearestNeighbor();

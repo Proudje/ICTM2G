@@ -10,7 +10,7 @@ public class Database {
      */
     public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost/nerdygadgets";
-        String username = "root", password = "root";
+        String username = "root", password = "";
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             return connection;
@@ -49,7 +49,7 @@ public class Database {
     }
 
     /**
-     * @return String Array of the last 10 Orders from the database
+     * @return String Array of Orders from the database
      * @throws SQLException
      */
     public String[][] getOders() throws SQLException {
