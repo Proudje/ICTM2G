@@ -25,7 +25,7 @@ public class WriteDataToExcel {
         XSSFSheet spreadsheet
                 = workbook.createSheet(" Student Data ");
 
-        // creating a row object
+        // creating a r ow object
         XSSFRow row;
 
         // This data needs to be written (Object[])
@@ -37,6 +37,8 @@ public class WriteDataToExcel {
                 new Object[] { "Adres", "Naam", "Telefoonnummer" });
         int i = 2;
         for (Location location : locations) {
+            System.out.println(location.getLat());
+            System.out.println(location.getCustomer());
             studentData.put(String.valueOf(i), new Object[] { location.getCustomer().getAddress(), location.getCustomer().getName(),location.getCustomer().getPhonenumber()});
             i++;
         }
