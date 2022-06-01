@@ -22,15 +22,15 @@ public class LoginFrame extends JFrame implements ActionListener {
         setSize(new Dimension(400, 200));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Username label constructor
-        userLabel = new JLabel("Username");
-        userLabel.setBounds(100, 8, 70, 20);
+        userLabel = new JLabel("Gebruikersnaam");
+        userLabel.setBounds(100, 8, 193, 20);
         panel.add(userLabel);
         // Username Text field
         username = new JTextField();
         username.setBounds(100, 27, 193, 28);
         panel.add(username);
         // Password Label constructor
-        passwordLabel = new JLabel("Password");
+        passwordLabel = new JLabel("Wachtwoord");
         passwordLabel.setBounds(100, 55, 70, 20);
         panel.add(passwordLabel);
         // Password TextField
@@ -38,7 +38,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         password.setBounds(100, 75, 193, 28);
         panel.add(password);
         // Button constructor
-        button = new JButton("Login");
+        button = new JButton("Inloggen");
         button.setBounds(100, 110, 90, 25);
         button.addActionListener(this);
         panel.add(button);
@@ -67,7 +67,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                 MainFrame m = new MainFrame();
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Login Failed.");
+                JOptionPane.showMessageDialog(null, "Inloggen mislukt.");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             throw new RuntimeException(ex);

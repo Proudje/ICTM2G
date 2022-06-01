@@ -129,7 +129,7 @@ public class NearestNeighbor extends Database {
                 }
             }
         }
-        url.append("&hl=en&alt=0&srv=0");
+        url.append("&loc=52.499220%2C6.081578&hl=en&alt=0&srv=0");
         System.out.println("Goedemorgen bezorger, hierbij de route van vandaag: " + url);
         return "Goedemorgen bezorger, hierbij de route van vandaag: " + url;
     }
