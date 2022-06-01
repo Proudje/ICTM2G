@@ -2,6 +2,14 @@ public class Customer {
     private int customerID;
     private String name, address, postalcode, phonenumber, stateprovincename, countryname, cityname;
 
+    public Customer(){}
+
+    public Customer(String name, String address, String phonenumber){
+        this.name = name;
+        this.address = address;
+        this.phonenumber = phonenumber;
+    }
+
     public int getCustomerID() {
         return customerID;
     }
