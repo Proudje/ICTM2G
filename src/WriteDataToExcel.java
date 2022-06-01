@@ -37,9 +37,11 @@ public class WriteDataToExcel {
                 new Object[] { "Adres", "Naam", "Telefoonnummer" });
         int i = 2;
         for (Location location : locations) {
-            System.out.println(location.getLat());
-            System.out.println(location.getCustomer());
-            studentData.put(String.valueOf(i), new Object[] { location.getCustomer().getAddress(), location.getCustomer().getName(),location.getCustomer().getPhonenumber()});
+            if (i == 2){
+            } else {
+                System.out.println(location.getCustomer().getName());
+                studentData.put(String.valueOf(i), new Object[]{location.getCustomer().getAddress(), location.getCustomer().getName(), location.getCustomer().getPhonenumber()});
+            }
             i++;
         }
 

@@ -21,8 +21,8 @@ public class NearestNeighbor extends Database {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dtf.format(task.dateTimeNow());
         try {
-            ps = connection.prepareStatement("SELECT customers.DeliveryLocation, orders.OrderID, customers.CustomerName, customers.PhoneNumber, customers.DeliveryAddressLine2 FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID LIMIT 100");
-//            ps.setString(1, date);
+            ps = connection.prepareStatement("SELECT customers.DeliveryLocation, orders.OrderID FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID WHERE orders.OrderDate = ? AND orders.Delivered = 0;");
+            ps.setString(1, date);
             rs = ps.executeQuery();
             // This will separate the Longitude and Latitude
             while (rs.next()) {
@@ -99,7 +99,6 @@ public class NearestNeighbor extends Database {
         double lon1 = 6.081578;
 
         ArrayList<Location> routes = getRoute();
-        System.out.println(routes.get(1).getCustomer());
         ArrayList<Location> totalRoute = new ArrayList<>();
         Location startLocation = new Location(lat1, lon1, 0);
 
@@ -114,9 +113,8 @@ public class NearestNeighbor extends Database {
                 lon1 = shortest.getLongg();
             }
         }
-
-//        System.out.println(totalRoute.size());
-        WriteDataToExcel w = new WriteDataToExcel(routes);
+        System.out.println(totalRoute.size());
+        WriteDataToExcel w = new WriteDataToExcel(totalRoute);
 
         return totalRoute;
     }

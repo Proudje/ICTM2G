@@ -7,7 +7,7 @@ public class Location extends Database {
     private double lat;
     private double longg;
     private boolean visited;
-    private Customer customer;
+    public Customer customer;
 
     public Location(double lat, double longg, int orderID) {
         this.lat = lat;
