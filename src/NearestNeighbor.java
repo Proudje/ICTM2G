@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class NearestNeighbor extends Database {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = dtf.format(task.dateTimeNow());
         try {
-            ps = connection.prepareStatement("SELECT customers.DeliveryLocation, orders.OrderID FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID WHERE orders.OrderDate = ? AND orders.Delivered = 0;");
+            ps = connection.prepareStatement("SELECT customers.DeliveryLocation, orders.OrderID, customers.CustomerName, customers.PhoneNumber, customers.DeliveryAddressLine2 FROM customers JOIN orders ON orders.CustomerID = customers.CustomerID WHERE orders.OrderDate = ? AND orders.Delivered = 0;");
             ps.setString(1, date);
             rs = ps.executeQuery();
             // This will separate the Longitude and Latitude
@@ -28,6 +29,8 @@ public class NearestNeighbor extends Database {
                 String[] parts = rs.getString("DeliveryLocation").split(",", 2);
                 int orderId = rs.getInt("OrderID");
                 Location lo = new Location(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), orderId);
+                Customer cu = new Customer(rs.getString("customers.CustomerName"), rs.getString("customers.DeliveryAddressLine2"), rs.getString("customers.PhoneNumber"));
+                lo.setCustomer(cu);
                 routes.add(lo);
             }
             ps.close();
@@ -90,7 +93,7 @@ public class NearestNeighbor extends Database {
      * @return Arraylist of (100)locations from the Nearest Neigbhor algortihm
      * @throws SQLException
      */
-    public ArrayList<Location> alogorithm() throws SQLException {
+    public ArrayList<Location> alogorithm() throws SQLException, IOException {
         // Location of Windesheim Campus
         double lat1 = 52.499220;
         double lon1 = 6.081578;
@@ -110,6 +113,7 @@ public class NearestNeighbor extends Database {
                 lon1 = shortest.getLongg();
             }
         }
+        WriteDataToExcel w = new WriteDataToExcel(totalRoute);
 
         return totalRoute;
     }
@@ -118,7 +122,7 @@ public class NearestNeighbor extends Database {
      * @return Gives a String of the route that the delivery driver needs to ride in the console
      * @throws SQLException
      */
-    public String getMessage() throws SQLException {
+    public String getMessage() throws SQLException, IOException {
         ArrayList<Location> routes = alogorithm();
         // Link where the route will be displayed on
         StringBuilder url = new StringBuilder("https://map.project-osrm.org/?z=9&center=52.219387%2C5.429993");

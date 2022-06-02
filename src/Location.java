@@ -7,6 +7,7 @@ public class Location extends Database {
     private double lat;
     private double longg;
     private boolean visited;
+    public Customer customer;
 
     public Location(double lat, double longg, int orderID) {
         this.lat = lat;
@@ -51,5 +52,13 @@ public class Location extends Database {
                 connection.close();
             }
         }
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,6 +30,8 @@ public class ScheduledTask extends TimerTask {
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }//remove for testing
     }
