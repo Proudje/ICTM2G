@@ -69,7 +69,8 @@ public class WriteDataToExcel {
         // writing the workbook into the file...
         FileOutputStream out = new FileOutputStream(
                 //new File("/Users/boverzaal/GFGsheet.xlsx"));
-                new File("C:/savedexcel/GFGsheet.xlsx"));
+                // Edit to your own pathname
+                new File("C:/savedexcel/Route1.xlsx"));
 
         workbook.write(out);
         out.close();
